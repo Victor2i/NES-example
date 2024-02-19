@@ -11,7 +11,7 @@ stringteste: .db "Hello, world!",0
 testenumber: .dw 5589
 
 _start:
-	; print russian bad word
+	; print message
 	LDA #$20
 	STA TextPos+1
 	LDA #$21
