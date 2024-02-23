@@ -31,8 +31,6 @@ _m_multiply_zero:
 
 _m_factorial_number       = $00 ; (2)
 _m_factorial_copynumber   = $02 ; (2)
-_m_factorial_addcount     = $04
-_m_factorial_timescounter = $05
 
 M_FACTORIAL:
 	LDA #0
@@ -43,34 +41,29 @@ M_FACTORIAL:
 	CPX #3
 	BCC _m_factorial_end
 	STX _m_factorial_copynumber
+	DEX
 _m_factorial_reset:
 	DEX
-	STX _m_factorial_addcount
-	LDY _m_factorial_addcount
+	TXA
+	TAY
 _m_factorial_loop:
-	CLC
-	LDA _m_factorial_number+1
-	ADC _m_factorial_copynumber+1
-	STA _m_factorial_number+1
 	CLC
 	LDA _m_factorial_number
 	ADC _m_factorial_copynumber
 	STA _m_factorial_number
 	LDA _m_factorial_number+1
-	ADC #0 ; adds 1 if carry bit set
+	ADC _m_factorial_copynumber+1
 	STA _m_factorial_number+1
 	DEY
-	CPY #1
 	BNE _m_factorial_loop
 	LDA _m_factorial_number
 	STA _m_factorial_copynumber
 	LDA _m_factorial_number+1
 	STA _m_factorial_copynumber+1
-	CPX #2
+	CPX #1
 	BNE _m_factorial_reset
 _m_factorial_end:
 	RTS
 _m_factorial_zero:
-	LDA #1
-	STA _m_factorial_number
+	INC _m_factorial_number
 	RTS
